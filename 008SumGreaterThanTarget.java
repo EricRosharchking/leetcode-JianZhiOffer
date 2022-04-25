@@ -10,31 +10,28 @@
 class Solution {
     public int minSubArrayLen(int target, int[] nums) {
         int l = nums.length;
-        int[] sums = new int[l];
-        if (nums[0] >= target) {
-            return 1;
-        }
-        sums[0] = nums[0];
-        for (int i = 1; i < l; i++) {
-            if (nums[i] >= target) {
+        int[] sums = new int[l + 1];
+        sums[0] = 0;
+        for (int i = 1; i <= l; i++) {
+            if (nums[i-1] >= target) {
                 return 1;
             }
-            sums[i] = sums[i - 1] + nums[i];
+            sums[i] = sums[i - 1] + nums[i - 1];
         }
-        if (sums[l - 1] < target) {
+        if (sums[l] < target) {
             return 0;
         }
-        if (sums[l - 1] == target) {
+        if (sums[l] == target) {
             return l;
         }
         int res = l;
         int i = 1, j = 0;
-        while (i < l && j <= i) {
+        while (i <= l && j <= i) {
             if (sums[i] < target) {
                 i++;
             } else if (sums[i] - sums[j] >= target) {
                 j++;
-                res = i - j + 1;
+                res = i - j+1;
             } else {
                 i++;
                 j++;
