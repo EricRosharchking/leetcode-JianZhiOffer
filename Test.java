@@ -6,11 +6,70 @@ public class Test {
 
     // abcw fxyz
     public static void main(String[] args) {
-        int[] arr = { 1,1,1,1 };
-        int k = 1;
-        System.out.println(numSubarrayProductLessThanK(arr, k));
+        int[] arr = { 1,-1,0 };
+        int k = 0;
+        System.out.println(subarraySum(arr, k));
         // [][10,9,10,4,3,8,3,3,6,2,10,10,9,3][1,1,1,1][5,5,5,5]
         // 19
+    }
+
+    public static int subarraySum(int[] nums, int k) {
+        // int[] sums = new int[nums.length];
+        // for (int i = 0; i< nums.length; i++) {
+        // sum += nums[i];
+        // sums[i] = sum;
+        // }
+
+        int res = 0, sum = nums[0], r = 1, l = 0;
+        while (r < nums.length || r - l >= 1) {
+            System.out.println("l:[" + l + "],r:[" + r + "]" + "sum:[" + sum + "]");
+            if (sum < k) {
+                if (r < nums.length)
+                    sum += nums[r++];
+                else if (r - l >= 1)
+                    sum -= nums[l++];
+            } else if (sum == k) {
+                res++;
+                System.out.println("found [" + l + ", " + r + "]");
+                if (r < nums.length) {
+                    sum += nums[r++];
+                } else {
+                    sum -= nums[l++];
+                }
+            } else {
+                if (l < nums.length) {
+                    sum -= nums[l++];
+                }
+            }
+
+            // if (sum == k) {
+            // res++;
+            //
+            // if (j < nums.length) {
+            // sum += nums[j++];
+            // }
+            // if (j == nums.length) {
+            // if (i < 0) {
+            // i = 0;
+            // }
+            // sum -= nums[i];
+            // }
+            // if (i < nums.length) {
+            // i++;
+            // }
+            // }
+            // if (sum < k) {
+            // if (j < nums.length)
+            // sum += nums[j++];
+            // } else if (sum > k) {
+            // if (i < 0) {
+            // i = 0;
+            // }
+            // sum -= nums[i++];
+            // }
+        }
+
+        return res;
     }
 
     public static int numSubarrayProductLessThanK(int[] nums, int k) {
@@ -25,8 +84,8 @@ public class Test {
                 System.out.println("window shrink by one");
                 p /= nums[i];
                 i++;
-                System.out.println("added " + (j-i));
-                res += (j-i);
+                System.out.println("added " + (j - i));
+                res += (j - i);
             } else {
                 if (j < nums.length) {
                     System.out.println("window extend by one");
@@ -34,14 +93,14 @@ public class Test {
                     j++;
                 } else if (j == nums.length) {
                     System.out.println("window shrink by one, at the end");
-                    System.out.println("added " + (j-i));
-                    res += (j-i);
+                    System.out.println("added " + (j - i));
+                    res += (j - i);
                     p /= nums[i];
                     i++;
                 }
             }
             if (j < nums.length && i == j) {
-                p=nums[j++];
+                p = nums[j++];
             }
         }
 
